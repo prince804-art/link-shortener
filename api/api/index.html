@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Link Shortener</title></head>
+<body>
+  <h1>Create Short Link</h1>
+  <input type="text" id="url" placeholder="Enter URL">
+  <input type="text" id="code" placeholder="Custom code">
+  <button onclick="shorten()">Shorten</button>
+  <p id="result"></p>
+
+  <script>
+    async function shorten() {
+      const url = document.getElementById("url").value;
+      const code = document.getElementById("code").value;
+      const res = await fetch("/api/shorten", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url, code })
+      });
+      const data = await res.json();
+      document.getElementById("result").innerText = data.short || data.error;
+    }
+  </script>
+</body>
+</html>
